@@ -87,14 +87,21 @@ WSGI_APPLICATION = 'funkomon.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'funkomon_db', # El nombre en HeidiSQL
-        'USER': 'root',        # Usuario de Laragon
-        'PASSWORD': '',        # Contraseña (vacía)
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# Para usar MySQL en producción, descomentar:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'funkomon_db',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation

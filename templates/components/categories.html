@@ -1,0 +1,36 @@
+{% comment %}
+  Componente: sección de categorías por tipo de Pokémon.
+  Recibe `categorias` (lista de dicts: nombre, emoji, color, count).
+  Si no se pasa, usa una lista por defecto.
+{% endcomment %}
+<section id="categorias" class="section section--alt">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:var(--space-12)">
+      <span class="section__eyebrow">Explora por tipo</span>
+      <h2 class="section__title">Categorías</h2>
+      <p class="section__subtitle mx-auto text-center">
+        Encuentra tu tipo favorito de Pokémon y descubre nuestra colección completa de Funko Pop.
+      </p>
+    </div>
+
+    <div class="cat-grid">
+      {% for cat in categorias %}
+        <div class="cat">
+          <div class="cat__icon" style="--cat-color: {{ cat.color }}">{{ cat.emoji }}</div>
+          <h3 class="cat__name">{{ cat.nombre }}</h3>
+          <p class="cat__count">{{ cat.count }} Funkos</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="banner">
+      <div class="banner__inner">
+        <div>
+          <h3 class="font-pixel" style="font-size:var(--fs-sm)">¿No encuentras tu tipo favorito?</h3>
+          <p style="color:var(--color-muted)">Tenemos más de 18 tipos diferentes de Pokémon Funko Pop</p>
+        </div>
+        <a href="#categorias" class="btn">Ver Todos los Tipos</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,42 +1,36 @@
 {% extends 'base.html' %}
 {% block title %}Registro{% endblock %}
+{% block footer %}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-body">
-                <h3 class="card-title text-center mb-4">Registro de Entrenador</h3>
-                
-                {% csrf_token %}
+<div class="container auth-wrap">
+  <div class="auth-card">
+    <span class="pokeball"></span>
+    <h3 class="auth-card__title">Registro de Entrenador</h3>
 
-                <div class="mb-3">
-                    <input type="text" id="username" class="form-control" placeholder="Nombre de usuario" required>
-                </div>
-                <div class="mb-3">
-                    <input type="email" id="email" class="form-control" placeholder="Correo electrónico" required>
-                </div>
-                <div class="mb-3">
-                    <input type="password" id="password" class="form-control" placeholder="Contraseña" required>
-                </div>
+    {% csrf_token %}
 
-                <hr>
-                
-                <h5 class="text-center">Registro Biométrico (Face ID)</h5>
-                <p class="text-muted text-center small">Mirá a la cámara y asegurate de tener buena iluminación.</p>
-                
-                <div class="d-flex justify-content-center mb-3">
-                    <video id="camara" width="320" height="240" autoplay class="border rounded bg-dark"></video>
-                </div>
-
-                <div class="d-grid gap-2">
-                    <button id="btnRegistrar" class="btn btn-success">Crear Cuenta y Registrar Rostro</button>
-                </div>
-                
-                <div id="mensaje" class="mt-3 text-center fw-bold"></div>
-            </div>
-        </div>
+    <div class="field">
+      <input type="text" id="username" class="input" placeholder="Nombre de usuario" required>
     </div>
+    <div class="field">
+      <input type="email" id="email" class="input" placeholder="Correo electrónico" required>
+    </div>
+    <div class="field">
+      <input type="password" id="password" class="input" placeholder="Contraseña" required>
+    </div>
+
+    <hr class="divider">
+
+    <h5 class="auth-card__title" style="font-size:var(--fs-sm)">Registro Biométrico (Face ID)</h5>
+    <p class="muted-note">Mirá a la cámara y asegurate de tener buena iluminación.</p>
+
+    <video id="camara" class="camera" autoplay></video>
+
+    <button id="btnRegistrar" class="btn btn--block btn--lg btn--accent">Crear Cuenta y Registrar Rostro</button>
+
+    <div id="mensaje" class="feedback"></div>
+  </div>
 </div>
 {% endblock %}
 
@@ -52,18 +46,18 @@
     document.getElementById('btnRegistrar').addEventListener('click', async () => {
         const btn = document.getElementById('btnRegistrar');
         const msj = document.getElementById('mensaje');
-        
+
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
         if(!username || !password) {
-            msj.innerHTML = "<span class='text-danger'>Faltan datos en el formulario.</span>";
+            msj.innerHTML = "<span class='err'>Faltan datos en el formulario.</span>";
             return;
         }
 
         btn.disabled = true;
-        msj.innerHTML = "<span class='text-primary'>Paso 1: Creando usuario...</span>";
+        msj.innerHTML = "<span class='info'>Paso 1: Creando usuario...</span>";
 
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -80,43 +74,41 @@
             const dataRegistro = await resRegistro.json();
 
             if (!resRegistro.ok) throw new Error(JSON.stringify(dataRegistro));
-            
-            const token = dataRegistro.token; // Guardamos la pulsera VIP
-            msj.innerHTML = "<span class='text-primary'>Paso 2: Analizando rostro...</span>";
+
+            const token = dataRegistro.token;
+            msj.innerHTML = "<span class='info'>Paso 2: Analizando rostro...</span>";
 
             // --- PASO 2: CAPTURAR FOTO Y MANDAR A FACE ID ---
-            // Creo un canvas invisible para "sacar la foto" del video
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0);
 
-            // Convertimos la foto del canvas a un archivo Blob (como JPG)
             canvas.toBlob(async (blob) => {
                 const formData = new FormData();
-                formData.append('foto', blob, 'rostro.jpg'); // Empaquetamos la foto
+                formData.append('foto', blob, 'rostro.jpg');
 
                 const resFace = await fetch('/api/auth/face-id/register/', {
                     method: 'POST',
-                    headers: { 
+                    headers: {
                         'Authorization': `Token ${token}`,
                         'X-CSRFToken': csrfToken
-                    }, // Mostramos el TOKEN para que el backend sepa quién es el usuario
-                    body: formData // Mandamos la foto
+                    },
+                    body: formData
                 });
-                
+
                 const dataFace = await resFace.json();
 
                 if (resFace.ok) {
-                    msj.innerHTML = `<span class='text-success'>¡Éxito! ${dataFace.mensaje}</span>`;
+                    msj.innerHTML = `<span class='ok'>¡Éxito! ${dataFace.mensaje}</span>`;
                 } else {
-                    msj.innerHTML = `<span class='text-danger'>Usuario creado, pero falló el FaceID: ${dataFace.error}</span>`;
+                    msj.innerHTML = `<span class='err'>Usuario creado, pero falló el FaceID: ${dataFace.error}</span>`;
                 }
                 btn.disabled = false;
             }, 'image/jpeg');
 
         } catch (error) {
-            msj.innerHTML = `<span class='text-danger'>Error: ${error.message}</span>`;
+            msj.innerHTML = `<span class='err'>Error: ${error.message}</span>`;
             btn.disabled = false;
         }
     });

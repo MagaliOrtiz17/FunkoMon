@@ -3,10 +3,43 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<div class="text-center mt-5">
-    <h1 class="display-4">¡Bienvenido a FunkoMon!</h1>
-    <p class="lead">Tu tienda de Funkos con seguridad biométrica.</p>
-    <hr class="my-4">
-    <p>El backend y el escáner facial están 100% operativos.</p>
-</div>
+  {# Héroe #}
+  {% include 'components/hero.html' %}
+
+  {# Productos destacados #}
+  <section id="productos" class="section">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <span class="section__eyebrow">Colección exclusiva</span>
+          <h2 class="section__title">Productos Destacados</h2>
+          <p class="section__subtitle">
+            Descubre nuestros Funko Pop más populares. Cada figura viene con su carta coleccionable.
+          </p>
+        </div>
+        <a href="#productos" class="btn btn--outline">Ver Todo ›</a>
+      </div>
+
+      {# Filtros por tipo #}
+      <div class="filters">
+        <a href="/" class="filter{% if not tipo_filtro %} is-active{% endif %}">Todos</a>
+        {% for cat in categorias %}
+          <a href="/?tipo={{ cat.nombre }}" class="filter{% if tipo_filtro == cat.nombre %} is-active{% endif %}">{{ cat.emoji }} {{ cat.nombre }}</a>
+        {% endfor %}
+      </div>
+
+      {# Grilla de tarjetas (componente reutilizable en bucle) #}
+      <div class="product-grid">
+        {% for producto in productos %}
+          <a href="/producto/{{ producto.id }}/" style="text-decoration:none;cursor:pointer">
+            {% include 'components/product_card.html' with p=producto %}
+          </a>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+
+  {# Categorías #}
+  {% include 'components/categories.html' %}
 {% endblock %}

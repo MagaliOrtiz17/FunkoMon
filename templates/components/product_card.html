@@ -1,0 +1,104 @@
+{% comment %}
+  Componente reutilizable: tarjeta de Funko estilo carta Pokémon TCG.
+
+  Uso:
+    {% include 'components/product_card.html' with p=producto %}
+
+  `p` es un dict con:
+    nombre, tipo (slug: electric/fire/water/grass/psychic/fighting/normal),
+    tipo_label, icono, imagen (emoji o img), hp, ataque, ataque_desc, ataque_dmg,
+    ataque2, ataque2_dmg, debilidad_icono, retirada (lista para iterar puntos),
+    precio, numero, estrellas, flavor.
+{% endcomment %}
+<article class="pcard pcard--{{ p.tipo|default:'water' }}" data-tilt>
+  <div class="pcard__tilt">
+    <div class="pcard__inner">
+      <div class="pcard__shine"></div>
+      <div class="pcard__body">
+
+        {# Fila superior: etapa, nombre, PS #}
+        <div class="pcard__top">
+          <div style="display:flex;align-items:center;gap:.4rem">
+            <span class="pcard__stage">BÁSICO</span>
+            <span class="pcard__name">{{ p.nombre }}</span>
+          </div>
+          <span class="pcard__hp">
+            <small>PS</small><b>{{ p.hp }}</b><span style="font-size:1.1rem">{{ p.icono }}</span>
+          </span>
+        </div>
+
+        {# Ilustración #}
+        <div class="pcard__art">
+          {% if p.imagen_url %}
+            <img src="{{ p.imagen_url }}" alt="{{ p.nombre }}" style="width:100%;height:7rem;object-fit:contain;background:linear-gradient(180deg, #cfe9ff 0%, #e8fbe8 100%);padding:0.5rem;border-radius:0 0 0 0">
+          {% else %}
+            <div class="pcard__art-img">{{ p.imagen }}</div>
+          {% endif %}
+          <div class="pcard__art-bar">
+            <span>N.º Funko · Edición Funkomon</span>
+            <span>Alt: 0.4 m · Peso: 6.0 kg</span>
+          </div>
+        </div>
+
+        {# Tipo #}
+        <span class="pcard__type-tag">Funko Pop tipo {{ p.tipo_label }}</span>
+
+        {# Ataques #}
+        <div class="pcard__attacks">
+          <div class="pcard__attack">
+            <div style="display:flex;gap:.4rem;align-items:flex-start">
+              <span class="pcard__energies">
+                <span class="energy"></span>
+                <span class="energy energy--colorless"></span>
+              </span>
+              <span>
+                <span class="pcard__attack-name">{{ p.ataque }}</span>
+                {% if p.ataque_desc %}<p class="pcard__attack-desc">{{ p.ataque_desc }}</p>{% endif %}
+              </span>
+            </div>
+            <span class="pcard__attack-dmg">{{ p.ataque_dmg }}</span>
+          </div>
+
+          {% if p.ataque2 %}
+          <div class="pcard__attack">
+            <div style="display:flex;gap:.4rem;align-items:center">
+              <span class="pcard__energies">
+                <span class="energy"></span>
+                <span class="energy"></span>
+              </span>
+              <span class="pcard__attack-name">{{ p.ataque2 }}</span>
+            </div>
+            <span class="pcard__attack-dmg">{{ p.ataque2_dmg }}</span>
+          </div>
+          {% endif %}
+        </div>
+
+        {# Debilidad / resistencia / retirada #}
+        <div class="pcard__meta">
+          <span>Debilidad {{ p.debilidad_icono }}×2</span>
+          <span>Resistencia —</span>
+          <span style="display:inline-flex;align-items:center;gap:.2rem">
+            Retirada
+            {% for d in p.retirada %}<span class="energy energy--colorless"></span>{% endfor %}
+          </span>
+        </div>
+
+        {# Flavor text #}
+        <p class="pcard__flavor">{{ p.flavor }}</p>
+
+        {# Numeración #}
+        <div class="pcard__id">
+          <span>Illus. FUNKOMON</span>
+          <span>{{ p.numero }} {{ p.estrellas }}</span>
+        </div>
+
+        {# Precio + comprar #}
+        <div class="pcard__buy">
+          <span class="pcard__price">${{ p.precio }} <span>USD</span></span>
+          <button class="btn btn--sm btn--ghost">🛒 Comprar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</article>

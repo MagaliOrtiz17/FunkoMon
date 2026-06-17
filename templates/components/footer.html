@@ -1,0 +1,78 @@
+{% comment %} Componente: Footer con newsletter, enlaces y contacto. {% endcomment %}
+<footer id="contacto" class="site-footer">
+  {# Newsletter #}
+  <div class="newsletter">
+    <div class="container newsletter__inner">
+      <div>
+        <h3 class="font-pixel" style="font-size:var(--fs-base)">¡Únete a nuestra comunidad!</h3>
+        <p style="color:var(--color-muted)">Recibe las últimas novedades y ofertas exclusivas</p>
+      </div>
+      <form class="newsletter__form" onsubmit="return false;">
+        <input type="email" class="input" placeholder="Tu email..." style="min-width:16rem">
+        <button class="btn">Suscribirse</button>
+      </form>
+    </div>
+  </div>
+
+  {# Columnas #}
+  <div class="container footer-grid">
+    <div class="footer-col">
+      <a href="/" class="brand" style="margin-bottom:var(--space-4)">
+        <span class="pokeball"></span>
+        <span><span class="brand__funko">FUNKO</span><span class="brand__mon">MON</span></span>
+      </a>
+      <p>La tienda #1 de Funko Pop de Pokémon. Colecciona todos tus favoritos con nosotros.</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook" title="Facebook">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram" title="Instagram">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 11.424c.006.121.01.243.01.364 0 3.539-2.697 7.618-7.618 7.618-1.512 0-2.92-.442-4.114-1.207.209.025.421.038.636.038 1.258 0 2.416-.43 3.337-1.148-.175.003-.352.027-.526.078-1.176.22-2.182.846-2.772 1.771-.288.455-.462.985-.462 1.557 0 .604.157 1.171.432 1.662-.227-.024-.449-.068-.664-.129-1.176-.22-2.182-.846-2.772-1.771-.288-.455-.462-.985-.462-1.557 0-.604.157-1.171.432-1.662.275.437.647.804 1.108 1.069.461.265.983.411 1.537.411.203 0 .404-.014.601-.041-1.176-.219-2.182-.846-2.772-1.771-.288-.455-.462-.985-.462-1.557 0-.604.157-1.171.432-1.662.275.437.647.804 1.108 1.069.461.265.983.411 1.537.411.203 0 .404-.014.601-.041-1.176-.219-2.182-.846-2.772-1.771-.288-.455-.462-.985-.462-1.557 0-.604.157-1.171.432-1.662.819.501 1.835.81 2.925.81 3.539 0 7.618-2.697 7.618-7.618 0-.121-.004-.243-.01-.364zm-3.166-2.265c0-.355-.288-.644-.644-.644-.356 0-.644.289-.644.644 0 .356.288.644.644.644.356 0 .644-.288.644-.644z"/></svg>
+        </a>
+        <a href="#" aria-label="Twitter" title="Twitter/X">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 002.856-9.86 10.02 10.02 0 01-2.8.856 4.996 4.996 0 00-8.689 4.577 14.1 14.1 0 01-10.25-5.218 4.997 4.997 0 001.547 6.659 4.988 4.988 0 01-2.266-.567v.06a5.007 5.007 0 004.007 4.907 4.998 4.998 0 01-2.251.086 5.007 5.007 0 004.675 3.478A10.004 10.004 0 010 19.033a14.097 14.097 0 007.618 2.231c9.375 0 14.496-7.743 14.496-14.459 0-.22-.005-.44-.015-.66A10.33 10.33 0 0024 4.59z"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube" title="YouTube">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Enlaces Rápidos</h4>
+      <ul class="footer-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#categorias">Categorías</a></li>
+        <li><a href="#">Ofertas</a></li>
+        <li><a href="#">Novedades</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul class="footer-links">
+        <li><a href="#">Preguntas Frecuentes</a></li>
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a href="#">Términos</a></li>
+        <li><a href="#">Privacidad</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul class="footer-links">
+        <li class="contact-item"><span class="ico">✉️</span> info@funkomon.com</li>
+        <li class="contact-item"><span class="ico">📞</span> +1 (555) 123-4567</li>
+        <li class="contact-item"><span class="ico">📍</span> Pueblo Paleta, Kanto 12345</li>
+      </ul>
+    </div>
+  </div>
+
+  {# Barra inferior #}
+  <div class="container footer-bottom">
+    <p>© {% now "Y" %} FunkoMon. Todos los derechos reservados. Pokémon es una marca registrada.</p>
+    <p class="font-pixel" style="font-size:0.6rem;color:var(--color-primary)">VISA · MASTERCARD · PAYPAL</p>
+  </div>
+</footer>

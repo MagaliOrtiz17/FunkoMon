@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<section style="padding: var(--space-12) 0;">
+  <div class="container" style="max-width: 900px;">
+    <h1 class="font-pixel" style="font-size: var(--fs-2xl); margin-bottom: var(--space-8);">💳 Checkout</h1>
+
+    <div style="display: grid; grid-template-columns: 1fr 350px; gap: var(--space-8);">
+      {# Formulario #}
+      <form method="post" style="background: var(--color-surface); padding: var(--space-8); border-radius: var(--radius-md);">
+        {% csrf_token %}
+
+        <h3 class="font-pixel" style="font-size: var(--fs-sm); margin-bottom: var(--space-6); color: var(--color-primary);">Datos de Envío</h3>
+
+        <div class="field">
+          <label class="field__label">Nombre Completo</label>
+          <input type="text" name="nombre" class="input" value="{{ usuario.get_full_name }}" required>
+        </div>
+
+        <div class="field">
+          <label class="field__label">Email</label>
+          <input type="email" name="email" class="input" value="{{ usuario.email }}" readonly>
+        </div>
+
+        <div class="field">
+          <label class="field__label">Dirección</label>
+          <input type="text" name="direccion" class="input" placeholder="Calle, número, departamento" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+          <div class="field">
+            <label class="field__label">Ciudad</label>
+            <input type="text" name="ciudad" class="input" placeholder="Tu ciudad" required>
+          </div>
+          <div class="field">
+            <label class="field__label">Código Postal</label>
+            <input type="text" name="codigo_postal" class="input" placeholder="12345" required>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <h3 class="font-pixel" style="font-size: var(--fs-sm); margin-bottom: var(--space-6); color: var(--color-primary);">Método de Pago</h3>
+
+        <div class="field" style="margin-bottom: var(--space-8);">
+          <label style="display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3);">
+            <input type="radio" name="pago" value="entrega" checked>
+            <span style="color: var(--color-fg);">Pago en Entrega</span>
+          </label>
+          <p style="color: var(--color-muted); font-size: var(--fs-sm); margin-left: var(--space-6);">Pagas cuando recibas tu orden</p>
+        </div>
+
+        <button type="submit" class="btn btn--block btn--lg btn--accent">✓ Confirmar Compra</button>
+        <a href="/carrito/" class="btn btn--block" style="margin-top: var(--space-4);">← Volver al Carrito</a>
+      </form>
+
+      {# Resumen #}
+      <div>
+        <div style="background: var(--color-surface); padding: var(--space-6); border-radius: var(--radius-md);">
+          <h3 class="font-pixel" style="font-size: var(--fs-sm); margin-bottom: var(--space-4); color: var(--color-primary);">Resumen de Compra</h3>
+
+          <div style="max-height: 300px; overflow-y: auto; margin-bottom: var(--space-6);">
+            {% for item in items %}
+              <div style="padding: var(--space-3); border-bottom: 1px solid var(--color-surface-2);">
+                <p style="color: var(--color-fg); font-size: var(--fs-sm); font-weight: bold;">{{ item.producto.nombre }}</p>
+                <p style="color: var(--color-muted); font-size: var(--fs-sm);">{{ item.cantidad }} x ${{ item.producto.precio }}</p>
+                <p style="color: var(--color-primary); font-weight: bold; text-align: right;">${{ item.subtotal }}</p>
+              </div>
+            {% endfor %}
+          </div>
+
+          <div style="padding-top: var(--space-4); border-top: 2px solid var(--color-primary);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="font-pixel" style="color: var(--color-primary);">TOTAL:</span>
+              <span class="font-pixel" style="color: var(--color-primary); font-size: var(--fs-xl);">${{ total }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

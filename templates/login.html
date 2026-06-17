@@ -1,35 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}Login{% endblock %}
+{% block footer %}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-5">
-        <div class="card shadow">
-            <div class="card-body">
-                <h3 class="card-title text-center mb-4">Iniciar Sesión</h3>
+<div class="container auth-wrap">
+  <div class="auth-card">
+    <span class="pokeball"></span>
+    <h3 class="auth-card__title">Iniciar Sesión</h3>
 
-                {% csrf_token %}
-                
-                <div class="mb-3">
-                    <label class="form-label">Nombre de Usuario (Requerido para Face ID)</label>
-                    <input type="text" id="username" class="form-control" placeholder="Ej: entrenador_ash" required>
-                </div>
+    {% csrf_token %}
 
-                <hr>
-
-                <h5 class="text-center mt-4">Ingreso Biométrico</h5>
-                <div class="d-flex justify-content-center mb-3">
-                    <video id="camara" width="320" height="240" autoplay class="border rounded bg-dark"></video>
-                </div>
-
-                <div class="d-grid gap-2">
-                    <button id="btnLoginFace" class="btn btn-primary">📷 Escanear e Ingresar</button>
-                </div>
-                
-                <div id="mensaje" class="mt-3 text-center fw-bold"></div>
-            </div>
-        </div>
+    <div class="field">
+      <label class="field__label" for="username">Usuario (requerido para Face ID)</label>
+      <input type="text" id="username" class="input" placeholder="Ej: entrenador_ash" required>
     </div>
+
+    <hr class="divider">
+
+    <h5 class="auth-card__title" style="font-size:var(--fs-sm)">Ingreso Biométrico</h5>
+    <video id="camara" class="camera" autoplay></video>
+
+    <button id="btnLoginFace" class="btn btn--block btn--lg">📷 Escanear e Ingresar</button>
+
+    <div id="mensaje" class="feedback"></div>
+  </div>
 </div>
 {% endblock %}
 
@@ -48,12 +42,12 @@
         const btn = document.getElementById('btnLoginFace');
 
         if(!username) {
-            msj.innerHTML = "<span class='text-danger'>Por favor, ingresá tu usuario primero.</span>";
+            msj.innerHTML = "<span class='err'>Por favor, ingresá tu usuario primero.</span>";
             return;
         }
 
         btn.disabled = true;
-        msj.innerHTML = "<span class='text-primary'>Validando identidad...</span>";
+        msj.innerHTML = "<span class='info'>Validando identidad...</span>";
 
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -72,27 +66,22 @@
                 const res = await fetch('/api/auth/face-id/login/', {
                     method: 'POST',
                     body: formData,
-                    headers: {
-                        'X-CSRFToken': csrfToken
-                    }
+                    headers: { 'X-CSRFToken': csrfToken }
                 });
-                
+
                 const data = await res.json();
 
                 if (res.ok) {
-                    // Si da 200 OK, guardamos el token simulando una sesión real
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('username', data.username);
-                    msj.innerHTML = `<span class='text-success'>${data.mensaje}<br>¡Token guardado! Redirigiendo...</span>`;
-                    
-                    // Simulamos un inicio de sesión mandándolo al Home tras 2 segundos
+                    msj.innerHTML = `<span class='ok'>${data.mensaje}<br>¡Token guardado! Redirigiendo...</span>`;
                     setTimeout(() => { window.location.href = "/"; }, 2000);
                 } else {
-                    msj.innerHTML = `<span class='text-danger'>${data.error}</span>`;
+                    msj.innerHTML = `<span class='err'>${data.error}</span>`;
                     btn.disabled = false;
                 }
             } catch (error) {
-                msj.innerHTML = `<span class='text-danger'>Error de red.</span>`;
+                msj.innerHTML = `<span class='err'>Error de red.</span>`;
                 btn.disabled = false;
             }
         }, 'image/jpeg');

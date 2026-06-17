@@ -1,0 +1,48 @@
+{% comment %}
+  Componente: Header / barra de navegación.
+  El bloque #nav-auth se rellena dinámicamente con JS (sesión iniciada o no).
+{% endcomment %}
+<header class="site-header">
+  <div class="container">
+    <div class="site-header__bar">
+      {# Logo #}
+      <a href="/" class="brand">
+        <span class="pokeball"></span>
+        <span><span class="brand__funko">FUNKO</span><span class="brand__mon">MON</span></span>
+      </a>
+
+      {# Navegación desktop #}
+      <nav class="nav">
+        <a href="#inicio" class="nav__link">Inicio</a>
+        <a href="#productos" class="nav__link">Productos</a>
+        <a href="#categorias" class="nav__link">Categorías</a>
+        <a href="#contacto" class="nav__link">Contacto</a>
+      </nav>
+
+      {# Búsqueda + carrito + sesión #}
+      <div class="header__actions">
+        <form action="/" method="get" class="search" style="margin:0">
+          <input type="search" name="q" class="input" placeholder="Buscar Funkos..." style="width:14rem" value="{{ query }}">
+          <span class="search__icon">🔍</span>
+        </form>
+        <a href="/carrito/" class="btn cart-btn" aria-label="Carrito" style="position:relative;text-decoration:none">
+          🛒<span class="badge" id="cart-count">0</span>
+        </a>
+        {# Login / usuario: lo rellena main.js #}
+        <span id="nav-auth"></span>
+      </div>
+
+      {# Botón menú móvil #}
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menú">☰</button>
+    </div>
+
+    {# Menú móvil #}
+    <nav class="mobile-menu" id="mobile-menu">
+      <a href="#inicio" class="nav__link">Inicio</a>
+      <a href="#productos" class="nav__link">Productos</a>
+      <a href="#categorias" class="nav__link">Categorías</a>
+      <a href="#contacto" class="nav__link">Contacto</a>
+      <span id="nav-auth-mobile"></span>
+    </nav>
+  </div>
+</header>
