@@ -227,9 +227,32 @@ h1, h2, h3, h4 {
   gap: var(--space-2);
   font-family: var(--font-pixel);
   font-size: var(--fs-lg);
+  transition: transform var(--t-base);
 }
+.brand:hover { transform: scale(1.05); }
 .brand__funko { color: var(--color-primary); }
 .brand__mon { color: var(--color-fg); }
+
+.brand--logo {
+  padding: var(--space-2) 0;
+}
+
+.brand--logo .brand__logo {
+  height: 55px;
+  width: auto;
+  display: block;
+}
+
+.brand--logo-footer {
+  padding: 0;
+}
+
+.brand--logo-footer .brand__logo-footer {
+  height: 75px;
+  width: auto;
+  display: block;
+  max-width: 100%;
+}
 
 /* ============================================================
    HEADER
